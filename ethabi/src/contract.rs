@@ -154,6 +154,18 @@ impl Contract {
 		serde_json::from_reader(reader).map_err(From::from)
 	}
 
+	/// Loads contract from json bytestring.
+	#[cfg(feature = "serde-no-std")]
+	pub fn from_json_bytes(bytes: impl AsRef<[u8]>) -> errors::Result<Self> {
+		serde_json::from_slice(bytes.as_ref()).map_err(From::from)
+	}
+
+	/// Loads contract from json string.
+	#[cfg(feature = "serde-no-std")]
+	pub fn from_json_str(s: &str) -> errors::Result<Self> {
+		serde_json::from_str(s).map_err(From::from)
+	}
+
 	/// Creates constructor call builder.
 	pub fn constructor(&self) -> Option<&Constructor> {
 		self.constructor.as_ref()
