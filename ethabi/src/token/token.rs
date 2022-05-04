@@ -14,7 +14,13 @@ use core::fmt;
 use crate::no_std_prelude::*;
 use crate::{Address, Bytes, FixedBytes, Int, ParamType, Uint};
 
+#[cfg(feature = "parity-codec")]
+use parity_scale_codec::{Decode, Encode};
+#[cfg(feature = "parity-codec")]
+use scale_info::TypeInfo;
+
 /// Ethereum ABI params.
+#[cfg_attr(feature = "parity-codec", derive(Encode, Decode, TypeInfo))]
 #[derive(Debug, PartialEq, Clone)]
 pub enum Token {
 	/// Address.

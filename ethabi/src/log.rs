@@ -10,6 +10,11 @@
 use crate::no_std_prelude::*;
 use crate::{Bytes, Hash, Result, Token, TopicFilter};
 
+#[cfg(feature = "parity-codec")]
+use parity_scale_codec::{Decode, Encode};
+#[cfg(feature = "parity-codec")]
+use scale_info::TypeInfo;
+
 /// Common filtering functions that are available for any event.
 pub trait LogFilter {
 	/// Match any log parameters.
@@ -28,6 +33,7 @@ pub trait ParseLog {
 }
 
 /// Ethereum log.
+#[cfg_attr(feature = "parity-codec", derive(Encode, Decode, TypeInfo))]
 #[derive(Debug, PartialEq, Clone)]
 pub struct RawLog {
 	/// Indexed event params are represented as log topics.
@@ -43,6 +49,7 @@ impl From<(Vec<Hash>, Bytes)> for RawLog {
 }
 
 /// Decoded log param.
+#[cfg_attr(feature = "parity-codec", derive(Encode, Decode, TypeInfo))]
 #[derive(Debug, PartialEq, Clone)]
 pub struct LogParam {
 	/// Decoded log name.
@@ -52,6 +59,7 @@ pub struct LogParam {
 }
 
 /// Decoded log.
+#[cfg_attr(feature = "parity-codec", derive(Encode, Decode, TypeInfo))]
 #[derive(Debug, PartialEq, Clone)]
 pub struct Log {
 	/// Log params.
